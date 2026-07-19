@@ -1,10 +1,14 @@
 import React, { useRef, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
 
+import { FiGithub, FiExternalLink } from 'react-icons/fi';
+
 import useOnScreen from '../hooks/useScreenView';
 import { AppContext } from '../providers/AppStateProvider';
 import Carousel from '../components/Carousel';
 import { Badge } from '@/components/ui/badge';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 const container = {
     hidden: { opacity: 0 },
@@ -42,30 +46,62 @@ const Projects = (data) => {
                 animate={isVisible ? 'show' : 'hidden'}
                 className="grid gap-10 sm:mx-12 sm:grid-cols-2"
             >
-                {data.project.projects.map((project, i) => (
-                    <motion.article
-                        key={i}
-                        variants={item}
-                        className="group relative flex flex-col overflow-hidden rounded-xl border bg-card/70 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-purple-500/60 hover:shadow-xl hover:shadow-purple-500/15"
-                    >
-                        <Carousel project={project} />
-                        <div className="flex flex-1 flex-col p-6">
-                            <h3 className="text-2xl font-semibold tracking-tight transition-colors group-hover:text-purple-600 dark:group-hover:text-purple-400">
-                                {project.name}
-                            </h3>
-                            <div className="mt-3 flex flex-row flex-wrap gap-2">
-                                {project.tech.map((tech, j) => (
-                                    <Badge key={j} variant="secondary" className="font-medium">
-                                        {tech}
-                                    </Badge>
-                                ))}
+                {data.project.projects.map((project, i) => {
+                    const liveUrl = project.links?.Live;
+                    const repoUrl = project.links?.GitHub || project.links?.Github;
+
+                    return (
+                        <motion.article
+                            key={i}
+                            variants={item}
+                            className="group relative flex flex-col overflow-hidden rounded-xl border bg-card/70 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-purple-500/60 hover:shadow-xl hover:shadow-purple-500/15"
+                        >
+                            <Carousel project={project} />
+                            <div className="flex flex-1 flex-col p-6">
+                                <h3 className="text-2xl font-semibold tracking-tight transition-colors group-hover:text-purple-600 dark:group-hover:text-purple-400">
+                                    {project.name}
+                                </h3>
+                                <div className="mt-3 flex flex-row flex-wrap gap-2">
+                                    {project.tech.map((tech, j) => (
+                                        <Badge key={j} variant="secondary" className="font-medium">
+                                            {tech}
+                                        </Badge>
+                                    ))}
+                                </div>
+                                <p className="mt-4 leading-relaxed text-muted-foreground">
+                                    {project.about}
+                                </p>
+
+                                {(liveUrl || repoUrl) && (
+                                    <div className="mt-auto flex flex-wrap gap-3 pt-6">
+                                        {liveUrl && (
+                                            <a
+                                                href={liveUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={cn(buttonVariants({ size: 'sm' }), 'shadow-sm shadow-purple-600/20')}
+                                            >
+                                                <FiExternalLink className="h-4 w-4" />
+                                                Live Demo
+                                            </a>
+                                        )}
+                                        {repoUrl && (
+                                            <a
+                                                href={repoUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+                                            >
+                                                <FiGithub className="h-4 w-4" />
+                                                Code
+                                            </a>
+                                        )}
+                                    </div>
+                                )}
                             </div>
-                            <p className="mt-4 leading-relaxed text-muted-foreground">
-                                {project.about}
-                            </p>
-                        </div>
-                    </motion.article>
-                ))}
+                        </motion.article>
+                    );
+                })}
             </motion.div>
         </section>
     );
