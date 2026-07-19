@@ -16,6 +16,8 @@ import TrackIt1 from '../assets/project_images/TrackIt-images/TrackItPage1.JPG';
 import TrackIt2 from '../assets/project_images/TrackIt-images/TrackItPage2.JPG';
 import TrackIt3 from '../assets/project_images/TrackIt-images/TrackItPage3.JPG';
 import TrackIt4 from '../assets/project_images/TrackIt-images/TrackItPage4.JPG';
+import Velin1 from '../assets/project_images/Velin-images/VelinPage1.png';
+import Velin2 from '../assets/project_images/Velin-images/VelinPage2.png';
 
 const data = {
     name: '',
@@ -97,9 +99,7 @@ const data = {
         },
         {
             name: 'Velin',
-            // TODO: drop real screenshots in src/assets/project_images/Velin-images/
-            // and import them above, then replace the placeholder below.
-            images: [TestImage],
+            images: [Velin1, Velin2],
             about:
                 "Velin: A browser-based PDF editor that runs entirely client-side — no uploads, no servers, no accounts. Organize pages (remove, reorder, rotate, extract), add formatted text, draw or upload signatures, and create freehand annotations, then export the edited PDF, with every operation processed locally in the browser. Built with Next.js and TypeScript, styled with Tailwind CSS and shadcn/ui, using PDF.js for rendering and pdf-lib for writing, with Zustand for state management.",
             tech: ['Next.js', 'TypeScript', 'Tailwind', 'PDF.js', 'pdf-lib', 'Zustand'],
