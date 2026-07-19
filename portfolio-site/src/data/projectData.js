@@ -31,6 +31,20 @@ const data = {
     website: '',
     projects: [
         {
+            name: 'Velin',
+            // TODO: drop real screenshots in src/assets/project_images/Velin-images/
+            // and import them above, then replace the placeholder below.
+            images: [TestImage],
+            about:
+                "Velin: A browser-based PDF editor that runs entirely client-side — no uploads, no servers, no accounts. Organize pages (remove, reorder, rotate, extract), add formatted text, draw or upload signatures, and create freehand annotations, then export the edited PDF, with every operation processed locally in the browser. Built with Next.js and TypeScript, styled with Tailwind CSS and shadcn/ui, using PDF.js for rendering and pdf-lib for writing, with Zustand for state management.",
+            tech: ['Next.js', 'TypeScript', 'Tailwind', 'PDF.js', 'pdf-lib', 'Zustand'],
+            links: {
+                GitHub: 'https://github.com/rddolor27/Velin',
+                Live: '',
+            },
+            role: 'Developer',
+        },
+        {
             name: 'Clustera',
             images:
                 [
