@@ -14,7 +14,7 @@ function App() {
     <AppStateProvider>
       <ParticlesBg />
       <Navigationbar />
-      <div className="bg-background/85 backdrop-blur-[2px] sm:mx-auto sm:max-w-screen-xl sm:px-12 sm:pb-24">
+      <div className="bg-background/85 sm:mx-auto sm:max-w-screen-xl sm:px-12 sm:pb-24">
         <About />
         <Experience />
         <Skills />
