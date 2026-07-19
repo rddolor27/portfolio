@@ -52,12 +52,14 @@ const About = () => {
                 animate={isVisible ? 'show' : 'hidden'}
                 className="mb-72 flex flex-col items-center pt-36"
             >
-                <motion.div variants={item} className="relative">
-                    <div className="absolute -inset-1 rounded-full bg-gradient-to-tr from-purple-600 via-fuchsia-500 to-indigo-500 opacity-75 blur-sm" />
+                <motion.div
+                    variants={item}
+                    className="relative rounded-full bg-gradient-to-tr from-purple-600 via-fuchsia-500 to-indigo-500 p-1 shadow-[0_0_35px_rgba(217,70,239,0.4)]"
+                >
                     <img
                         src={DeveloperPhoto}
                         alt="Rd Dolor"
-                        className="relative h-64 w-64 rounded-full object-cover ring-2 ring-background"
+                        className="h-64 w-64 rounded-full object-cover ring-2 ring-background"
                     />
                 </motion.div>
 
