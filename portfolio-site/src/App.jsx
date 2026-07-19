@@ -1,9 +1,3 @@
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-
-import "preline/preline";
-import { IStaticMethods } from "preline/preline";
-
 import Navigationbar from './components/Navigationbar.jsx';
 import ParticlesBg from './assets/Particles.jsx';
 import About from './components/About.jsx';
@@ -15,29 +9,17 @@ import data from './data/projectData.js';
 import { AppStateProvider } from './providers/AppStateProvider.jsx';
 
 function App() {
-  const location = useLocation();
-
-  useEffect(() => {
-    window.HSStaticMethods.autoInit();
-
-  }, [location.pathname]);
-
   return (
-
     <AppStateProvider>
-      <ParticlesBg></ParticlesBg>
-      <Navigationbar></Navigationbar>
-      {/* <div className="bg-white dark:bg-gray-900 dark:border-gray-700"> */}
-      <div className="sm:max-w-screen-xl sm:px-12 sm:mx-auto bg-white sm:pb-24">
-        <About></About>
-        <Skills></Skills>
+      <ParticlesBg />
+      <Navigationbar />
+      <div className="bg-background/85 backdrop-blur-[2px] sm:mx-auto sm:max-w-screen-xl sm:px-12 sm:pb-24">
+        <About />
+        <Skills />
         <Projects project={data} />
-        <Contact></Contact>
-
+        <Contact />
       </div>
-      {/* </div > */}
     </AppStateProvider>
-
   );
 }
 

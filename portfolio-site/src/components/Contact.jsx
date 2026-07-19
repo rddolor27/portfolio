@@ -1,55 +1,49 @@
-
 import React, { useRef, useEffect, useContext } from 'react';
 import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
-import useOnScreen from '../hooks/useScreenView'; // Adjust import path as 
+
+import useOnScreen from '../hooks/useScreenView';
 import { AppContext } from '../providers/AppStateProvider';
-
-const ColoredLine = ({ color }) => (
-    <hr
-        style={{
-            color: color,
-            backgroundColor: color,
-            height: 5
-        }}
-    />
-);
-
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 
 const GmailCopy = () => {
-    const gmailAddress = 'radolor@up.edu.ph'
+    const gmailAddress = 'radolor@up.edu.ph';
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(gmailAddress)
             .then(() => {
                 alert('Gmail address copied to clipboard!');
             })
-            .catch(err => {
+            .catch((err) => {
                 console.error('Failed to copy:', err);
             });
     };
 
     return (
-        <div onClick={copyToClipboard}>
+        <button
+            type="button"
+            onClick={copyToClipboard}
+            className="font-medium text-purple-600 underline-offset-4 hover:underline dark:text-purple-400"
+        >
             {gmailAddress}
-        </div>
+        </button>
     );
 };
 
 function Contact() {
     const form = useRef();
-    const { inContactsSection, setInContactsSection } = useContext(AppContext);
+    const { setInContactsSection } = useContext(AppContext);
+
     const sendEmail = (e) => {
         e.preventDefault();
         emailjs.sendForm('service_9mf55uv', 'template_2pweal5', form.current, 'zlCWaO64DPLn7rWrx')
-            .then((result) => {
-                console.log(form.current)
-                console.log(result.text);
-                console.log("Message Sent");
-
+            .then(() => {
                 e.target.reset();
             }, (error) => {
-                console.log(error.text);
+                console.error(error.text);
             });
     };
 
@@ -57,104 +51,73 @@ function Contact() {
     const isVisible = useOnScreen(ref);
 
     useEffect(() => {
-        if (isVisible) {
-            console.log("Element is on screen");
-            setInContactsSection(true)
-        } else {
-            console.log("Element is not on screen");
-            setInContactsSection(false)
-        }
-    }, [isVisible]);
+        setInContactsSection(isVisible);
+    }, [isVisible, setInContactsSection]);
 
     return (
-        <section ref={ref} id='contacts-section' className='flex-col sm:px-[1.25rem] mt-10 flex tm:py-0 sm:py-0 sm:mt-14 tm:flex-col gap-[80px] sm:gap-[20px] tm:gap-[20px] sm:flex-col'>
-            <div className="flex flex-row items-center mb-24 mt-16">
-                <div className="font-mono font-bold text-left text-5xl text-purple-600">Connect</div>
-                <hr className="ml-4 mt-6 border-t-1 border-purple-600 h-2 w-72" />
+        <section ref={ref} id="contacts-section" className="mt-10 flex flex-col px-4 sm:mt-14 sm:px-[1.25rem]">
+            <div className="mb-24 mt-16 flex flex-row items-center">
+                <h2 className="font-mono text-5xl font-bold text-purple-600">Connect</h2>
+                <hr className="ml-4 mt-6 h-2 w-72 border-t border-purple-600" />
             </div>
-            {isVisible ? (
-                <motion.section
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ ease: 'easeInOut', duration: 0.9, delay: 0.2 }}
+
+            <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+                transition={{ ease: 'easeInOut', duration: 0.7 }}
+                className="mx-auto w-full max-w-2xl"
+            >
+                <p className="mb-8 text-center text-muted-foreground">
+                    You can contact me at <GmailCopy />
+                </p>
+
+                <form
+                    ref={form}
+                    onSubmit={sendEmail}
+                    className="flex flex-col gap-5 rounded-xl border bg-card/70 p-6 shadow-sm backdrop-blur-sm sm:p-8"
                 >
-                    <div className='flex flex-col tm:pt-4 lg:pt-4 sm:pt-0 tm:w-full sm:w-full tm:mb-[20px] sm:mb-[20px]'>
-                        <div className='flex flex-row'>
-                            <p className='cursor-pointer'>You can contact me at&nbsp;</p>
-                            <GmailCopy />
-                        </div>
-                    </div>
-                    <div className='flex justify-center'>
-
-                        <form className='flex flex-col gap-4 tm:w-full sm:w-full lg:w-full' ref={form} onSubmit={sendEmail}>
-                            <label>Name</label>
-                            <input className='p-4 rounded-[4px] bg-[#e4e1e1fa] dark:bg-[#3d3e4b] h-[58px]'
-                                placeholder='Name'
-                                type="text"
-                                name="from_name"
-                                required />
-
-                            <label>Email</label>
-                            <input className='p-4 rounded-[4px]  bg-[#e4e1e1fa] dark:bg-[#3d3e4b] h-[58px]'
-                                placeholder='Email'
-                                type="email"
-                                name="from_email"
-                                required />
-
-                            <label>Your Message</label>
-                            <textarea
-                                className='p-4 resize-none rounded-[4px] input bg-[#e4e1e1fa] dark:bg-[#343541] h-[198px] '
-                                placeholder='Your message'
-                                type='text'
-                                name="message"
-                                required />
-
-                            <div className='flex justify-start mt-5 mb-8'>
-                                <button type='submit'
-                                    className='px-[1.6em] py-[.8em] text-white bg-purple-600 coursor-pointer rounded-[4px] flex justify-start items-center gap-1 lg:text-[.8rem] sm:text-[.8rem]'>Send</button>
-                            </div>
-                        </form>
-                    </div>
-                </motion.section>
-            ) : <>
-                <div className='flex flex-col tm:pt-4 lg:pt-4 sm:pt-0 tm:w-full sm:w-full tm:mb-[20px] sm:mb-[20px] opacity-0'>
-                    <div className='flex flex-row'>
-                        <p className='cursor-pointer'>You can contact me at&nbsp;</p>
-                        <GmailCopy />
-                    </div>
-                </div>
-                <div className='flex justify-center'>
-
-                    <form className='flex flex-col gap-4 tm:w-full sm:w-full lg:w-full' ref={form} onSubmit={sendEmail}>
-                        <label>Name</label>
-                        <input className='p-4 rounded-[4px] bg-[#e4e1e1fa] dark:bg-[#3d3e4b] h-[58px]'
-                            placeholder='Name'
+                    <div className="flex flex-col gap-2">
+                        <Label htmlFor="contact-name">Name</Label>
+                        <Input
+                            id="contact-name"
+                            className="h-11"
+                            placeholder="Name"
                             type="text"
                             name="from_name"
-                            required />
+                            required
+                        />
+                    </div>
 
-                        <label>Email</label>
-                        <input className='p-4 rounded-[4px]  bg-[#e4e1e1fa] dark:bg-[#3d3e4b] h-[58px]'
-                            placeholder='Email'
+                    <div className="flex flex-col gap-2">
+                        <Label htmlFor="contact-email">Email</Label>
+                        <Input
+                            id="contact-email"
+                            className="h-11"
+                            placeholder="Email"
                             type="email"
                             name="from_email"
-                            required />
+                            required
+                        />
+                    </div>
 
-                        <label>Your Message</label>
-                        <textarea
-                            className='p-4 resize-none rounded-[4px] input bg-[#e4e1e1fa] dark:bg-[#343541] h-[198px] '
-                            placeholder='Your message'
-                            type='text'
+                    <div className="flex flex-col gap-2">
+                        <Label htmlFor="contact-message">Your Message</Label>
+                        <Textarea
+                            id="contact-message"
+                            className="h-[198px] resize-none"
+                            placeholder="Your message"
                             name="message"
-                            required />
+                            required
+                        />
+                    </div>
 
-                        <div className='flex justify-start mt-5 mb-8'>
-                            <button type='submit'
-                                className='px-[1.6em] py-[.8em] text-white bg-purple-600 coursor-pointer rounded-[4px] flex justify-start items-center gap-1 lg:text-[.8rem] sm:text-[.8rem]'>Send</button>
-                        </div>
-                    </form>
-                </div>
-            </>}
+                    <div className="mb-2 mt-3 flex justify-start">
+                        <Button type="submit" size="lg" className="shadow-lg shadow-purple-600/20">
+                            Send
+                        </Button>
+                    </div>
+                </form>
+            </motion.div>
         </section>
     );
 }

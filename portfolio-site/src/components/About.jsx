@@ -1,228 +1,112 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
-import useThemeSwitcher from '../hooks/useThemeSwitcher';
+import React, { useEffect, useRef, useContext } from 'react';
 import { FiArrowDownCircle } from 'react-icons/fi';
 import { motion } from 'framer-motion';
+
 import DeveloperPhoto from '../assets/images/Dev_Photo.jpeg';
-
-import useOnScreen from '../hooks/useScreenView';
-import { AppContext } from '../providers/AppStateProvider';
-
+import Resume from '../assets/Dolor-Resume.pdf';
 import Linkedin from '../assets/social_image_icons/linkedin.png';
 import Github from '../assets/social_image_icons/github.png';
 import Gmail from '../assets/social_image_icons/gmail.png';
 
-export const Resume = require('../assets/Dolor-Resume.pdf')
+import useOnScreen from '../hooks/useScreenView';
+import { AppContext } from '../providers/AppStateProvider';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+
+const container = {
+    hidden: { opacity: 0 },
+    show: {
+        opacity: 1,
+        transition: { ease: 'easeInOut', duration: 0.6, staggerChildren: 0.15 },
+    },
+};
+
+const item = {
+    hidden: { opacity: 0, y: 16 },
+    show: { opacity: 1, y: 0, transition: { ease: 'easeInOut', duration: 0.7 } },
+};
+
+const SOCIALS = [
+    { href: 'https://www.linkedin.com/in/ronel-dylan-joshua-a-dolor-4b3b37206/', img: Linkedin, alt: 'linkedin' },
+    { href: 'https://github.com/amtw123456', img: Github, alt: 'github' },
+    { href: 'mailto:radolor@up.edu.ph', img: Gmail, alt: 'gmail' },
+];
 
 const About = () => {
-    const [activeTheme] = useThemeSwitcher();
-    const { inAboutSection, setInAboutSection } = useContext(AppContext);
+    const { setInAboutSection } = useContext(AppContext);
 
     const ref = useRef(null);
     const isVisible = useOnScreen(ref);
 
     useEffect(() => {
-        if (isVisible) {
-            console.log("Element is on screen");
-            setInAboutSection(true)
-
-        } else {
-            console.log("Element is not on screen");
-            setInAboutSection(false)
-        }
-
-    }, [isVisible]);
-
-
-    useEffect(() => {
-        console.log(inAboutSection)
-    }, [inAboutSection]);
+        setInAboutSection(isVisible);
+    }, [isVisible, setInAboutSection]);
 
     return (
-        <section ref={ref} id="about-section" className='border border-white'>
-            {isVisible ? (
-                <div className='z-50 mb-72 pt-36'>
-                    <motion.section
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ ease: 'easeInOut', duration: 0.9, delay: 0.2 }}
-                        className="flex flex-col items-center justify-center"
+        <section ref={ref} id="about-section" className="relative">
+            <div className="hero-glow pointer-events-none absolute inset-x-0 -top-16 h-[32rem]" />
+
+            <motion.div
+                variants={container}
+                initial="hidden"
+                animate={isVisible ? 'show' : 'hidden'}
+                className="mb-72 flex flex-col items-center pt-36"
+            >
+                <motion.div variants={item} className="relative">
+                    <div className="absolute -inset-1 rounded-full bg-gradient-to-tr from-purple-600 via-fuchsia-500 to-indigo-500 opacity-75 blur-sm" />
+                    <img
+                        src={DeveloperPhoto}
+                        alt="Rd Dolor"
+                        className="relative h-64 w-64 rounded-full object-cover ring-2 ring-background"
+                    />
+                </motion.div>
+
+                <motion.div variants={item} className="mt-8 flex flex-row items-center justify-center gap-12">
+                    {SOCIALS.map(({ href, img, alt }) => (
+                        <a key={alt} href={href} target="_blank" rel="noopener noreferrer">
+                            <img
+                                src={img}
+                                alt={alt}
+                                className="h-12 w-12 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+                            />
+                        </a>
+                    ))}
+                </motion.div>
+
+                <motion.p
+                    variants={item}
+                    className="mt-8 text-center text-xl sm:text-2xl font-semibold tracking-tight"
+                >
+                    <span className="text-gradient">Full-Stack Developer</span>
+                    <span className="text-muted-foreground"> | </span>
+                    Machine Learning &amp; Data Analytics Enthusiast
+                </motion.p>
+
+                <motion.p
+                    variants={item}
+                    className="mt-8 max-w-3xl px-6 text-center leading-relaxed text-muted-foreground"
+                >
+                    Hi, I'm RD, a recent Computer Science graduate from the University of the Philippines Los Baños.
+                    I'm a developer with a strong passion for Machine Learning, Data Analytics, Software Development,
+                    and Finance. My interest in technology has driven me to continually learn and explore these fields.
+                    I enjoy creating applications that can improve the daily lives of individuals and analyze data by
+                    transforming raw data into meaningful insights allowing for more informed decisions.
+                </motion.p>
+
+                <motion.div variants={item} className="mt-12">
+                    <a
+                        download="Dolor-Resume.pdf"
+                        href={Resume}
+                        aria-label="Download Resume"
+                        className={cn(buttonVariants({ size: 'lg' }), 'shadow-lg shadow-purple-600/20')}
                     >
-                        <div className="w-full">
-                            <div className='items-center flex justify-center'>
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{
-                                        ease: 'easeInOut',
-                                        duration: 1.9,
-                                        delay: 0.1,
-                                    }}
-                                    className="font-general-semibold text-2xl text-center text-ternary-dark"
-                                >
-                                    <img src={DeveloperPhoto} alt="Random Image" className="w-64 h-64 rounded-full" />
-                                </motion.div>
-
-                            </div>
-                            <div className="flex flex-row items-center justify-center gap-12 mt-6 mb-6">
-                                <a href="https://www.linkedin.com/in/ronel-dylan-joshua-a-dolor-4b3b37206/" target='_blank' rel="noopener noreferrer" >
-                                    <img src={Linkedin} alt="linkedin" className='w-12 h-12 hover:scale-125 transition-transform duration-300 ease-in-out' />
-                                </a>
-                                <a href="https://github.com/amtw123456" target='_blank' rel="noopener noreferrer" >
-                                    <img src={Github} alt="github" className='w-12 h-12 hover:scale-125 transition-transform duration-300 ease-in-out' />
-                                </a>
-                                <a href='mailto:radolor@up.edu.ph' target='_blank' rel="noopener noreferrer" >
-                                    <img src={Gmail} alt="gmail" className='w-14 h-14 hover:scale-125 transition-transform duration-300 ease-in-out' />
-                                </a>
-                            </div>
-                            <motion.p
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{
-                                    ease: 'easeInOut',
-                                    duration: 0.9,
-                                    delay: 0.2,
-                                }}
-                                className="font-general-medium mt-4 text-lg text-center leading-normal text-gray-500"
-                            >
-                                Full-Stack Developer | Machine Learning & Data Analytics Enthusiast
-                            </motion.p>
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{
-                                    ease: 'easeInOut',
-                                    duration: 0.9,
-                                    delay: 0.1,
-                                }}
-                            >
-                                <div className='sm:mx-48 text-center mt-12'>
-                                    <span>
-                                        Hi, I'm RD, a recent Computer Science graduate from the University of the Philippines Los Baños.
-                                        I'm a developer with a strong passion for Machine Learning, Data Analytics, Software Development,
-                                        and Finance. My interest in technology has driven me to continually learn and explore these fields.
-                                        I enjoy creating applications that can improve the daily lives of individuals and analyze data by
-                                        transforming raw data into meaningful insights allowing for more informed decisions.
-
-                                    </span>
-                                </div>
-                            </motion.div>
-                            <div className='flex flex-row justify-evenly'>
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{
-                                        ease: 'easeInOut',
-                                        duration: 0.9,
-                                        delay: 0.3,
-                                    }}
-                                    className="flex justify-center sm:block"
-                                >
-                                    <a
-                                        download="Dolor-Resume.pdf"
-                                        href={Resume}
-                                        className="font-general-medium flex justify-center items-center w-36 sm:w-56 mt-12 mb-6 sm:mb-0 text-lg border border-purple-200 dark:border-ternary-dark py-2.5 sm:py-3 shadow-lg rounded-lg bg-indigo-50 focus:ring-1 focus:ring-indigo-900 hover:bg-indigo-500 text-gray-500 hover:text-white duration-500"
-                                        aria-label="Download Resume"
-                                    >
-                                        <FiArrowDownCircle className="mr-2 sm:mr-3 h-5 w-5 sn:w-6 sm:h-6 duration-100"></FiArrowDownCircle>
-                                        <span className="text-sm sm:text-lg font-general-medium duration-100">
-                                            Download Resume
-                                        </span>
-                                    </a>
-                                </motion.div>
-                                {/* <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{
-                                        ease: 'easeInOut',
-                                        duration: 0.9,
-                                        delay: 0.3,
-                                    }}
-                                    className="flex justify-center sm:block"
-                                >
-                                    <a
-                                        download="Dolor-Resume.pdf"
-                                        href={Resume}
-                                        className="font-general-medium flex justify-center items-center w-36 sm:w-48 mt-12 mb-6 sm:mb-0 text-lg border border-purple-200 dark:border-ternary-dark py-2.5 sm:py-3 shadow-lg rounded-lg bg-indigo-50 focus:ring-1 focus:ring-indigo-900 hover:bg-indigo-500 text-gray-500 hover:text-white duration-500"
-                                        aria-label="Download Resume"
-                                    >
-                                        <FiArrowDownCircle className="mr-2 sm:mr-3 h-5 w-5 sn:w-6 sm:h-6 duration-100"></FiArrowDownCircle>
-                                        <span className="text-sm sm:text-lg font-general-medium duration-100">
-                                            Download CV
-                                        </span>
-                                    </a>
-                                </motion.div> */}
-                            </div>
-                        </div>
-
-                    </motion.section>
-                </div >
-            ) : (
-                <div className="z-50 mb-72 pt-36 opacity-0">
-                    <div className="flex flex-col items-center justify-center">
-                        <div className="w-full">
-                            <div className="items-center flex justify-center">
-                                <div className="font-general-semibold text-2xl text-center text-ternary-dark">
-                                    <img src={DeveloperPhoto} alt="Random Image" className="w-64 h-64 rounded-full" />
-                                </div>
-                            </div>
-                            <div className="flex flex-row items-center justify-center gap-12 mt-6 mb-6">
-                                <a href="https://www.linkedin.com/in/ronel-dylan-joshua-a-dolor-4b3b37206/" target='_blank' rel="noopener noreferrer" >
-                                    <img src={Linkedin} alt="linkedin" className='w-12 h-12 hover:scale-105' />
-                                </a>
-                                <a href="https://github.com/amtw123456" target='_blank' rel="noopener noreferrer" >
-                                    <img src={Github} alt="github" className='w-12 h-12 hover:scale-105' />
-                                </a>
-                                <a href='mailto:radolor@up.edu.ph' target='_blank' rel="noopener noreferrer" >
-                                    <img src={Gmail} alt="gmail" className='w-14 h-14 hover:scale-105' />
-                                </a>
-                            </div>
-                            <p className="font-general-medium mt-4 text-lg text-center leading-normal text-gray-500">
-                                Full-Stack Developer | Machine Learning & Data Analytics Enthusiast
-                            </p>
-                            <div className="sm:mx-48 text-center">
-                                <span>
-                                    Hi, I'm RD, a recent Computer Science graduate from the Univeristy of the Philippines Los Baños. I have
-                                    a strong passion for machine learning, data analytics, and software development.
-                                    I'm eager to apply my skills in a professional setting. I am enthusiastic about tackling real-world problems
-                                    and contributing to innovative projects that make an impact. I'm looking forward to starting my career and
-                                    continuing to learn and grow in these dynamic fields.
-                                </span>
-                            </div>
-                            <div className="flex flex-row justify-evenly">
-                                <div className="flex justify-center sm:block">
-                                    <a
-                                        download="Dolor-Resume.pdf"
-                                        href={Resume}
-                                        className="font-general-medium flex justify-center items-center w-36 sm:w-56 mt-12 mb-6 sm:mb-0 text-lg border border-purple-200 dark:border-ternary-dark py-2.5 sm:py-3 shadow-lg rounded-lg bg-indigo-50 focus:ring-1 focus:ring-indigo-900 hover:bg-indigo-500 text-gray-500 hover:text-white duration-500"
-                                        aria-label="Download Resume"
-                                    >
-                                        <FiArrowDownCircle className="mr-2 sm:mr-3 h-5 w-5 sm:w-6 sm:h-6 duration-100" />
-                                        <span className="text-sm sm:text-lg font-general-medium duration-100">
-                                            Download Resume
-                                        </span>
-                                    </a>
-                                </div>
-                                {/* <div className="flex justify-center sm:block">
-                                    <a
-                                        download="Dolor-Resume.pdf"
-                                        href={Resume}
-                                        className="font-general-medium flex justify-center items-center w-36 sm:w-48 mt-12 mb-6 sm:mb-0 text-lg border border-purple-200 dark:border-ternary-dark py-2.5 sm:py-3 shadow-lg rounded-lg bg-indigo-50 focus:ring-1 focus:ring-indigo-900 hover:bg-indigo-500 text-gray-500 hover:text-white duration-500"
-                                        aria-label="Download CV"
-                                    >
-                                        <FiArrowDownCircle className="mr-2 sm:mr-3 h-5 w-5 sm:w-6 sm:h-6 duration-100" />
-                                        <span className="text-sm sm:text-lg font-general-medium duration-100">
-                                            Download CV
-                                        </span>
-                                    </a>
-                                </div> */}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            )}
+                        <FiArrowDownCircle className="h-5 w-5" />
+                        Download Resume
+                    </a>
+                </motion.div>
+            </motion.div>
         </section>
     );
-}
+};
 
 export default About;
