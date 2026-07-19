@@ -86,11 +86,11 @@ const About = () => {
                     variants={item}
                     className="mt-8 max-w-3xl px-6 text-center leading-relaxed text-muted-foreground"
                 >
-                    Hi, I'm RD, a recent Computer Science graduate from the University of the Philippines Los Baños.
-                    I'm a developer with a strong passion for Machine Learning, Data Analytics, Software Development,
-                    and Finance. My interest in technology has driven me to continually learn and explore these fields.
-                    I enjoy creating applications that can improve the daily lives of individuals and analyze data by
-                    transforming raw data into meaningful insights allowing for more informed decisions.
+                    Hi, I'm RD, a Computer Science graduate from the University of the Philippines Los Baños and a
+                    full-stack developer. I build production systems end to end — POS platforms, admin dashboards,
+                    REST and GraphQL APIs, data-scraping automation, and finance tools — with technologies like
+                    React, Next.js, NestJS, Spring Boot, and PostgreSQL. I'm also drawn to Machine Learning and Data
+                    Analytics, and I enjoy turning complex problems into reliable, well-built software.
                 </motion.p>
 
                 <motion.div variants={item} className="mt-12">
