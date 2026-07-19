@@ -1,18 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
+// Toggles the `dark` class on <html> and persists to the same `hs_theme`
+// localStorage key the inline script in index.html reads on first paint.
 const useThemeSwitcher = () => {
-    const [theme, setTheme] = useState(localStorage.theme);
-    const activeTheme = theme === 'dark' ? 'light' : 'dark';
+    const [theme, setTheme] = useState(() =>
+        document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+    );
+
+    const toggleTheme = useCallback(() => {
+        setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    }, []);
 
     useEffect(() => {
-        const root = window.document.documentElement;
+        const root = document.documentElement;
+        root.classList.toggle('dark', theme === 'dark');
+        root.classList.toggle('light', theme === 'light');
+        localStorage.setItem('hs_theme', theme);
+    }, [theme]);
 
-        root.classList.remove(activeTheme);
-        root.classList.add(theme);
-        localStorage.setItem('theme', theme);
-    }, [theme, activeTheme]);
-
-    return [activeTheme, setTheme];
+    return [theme, toggleTheme];
 };
 
 export default useThemeSwitcher;

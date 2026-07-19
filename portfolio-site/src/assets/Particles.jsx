@@ -1,26 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
+import Particles, { ParticlesProvider, useParticlesProvider } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 
-const ParticlesBg = () => {
-    const [init, setInit] = useState(false);
+const ParticlesInner = () => {
+    const { loaded } = useParticlesProvider();
     const [isDarkMode, setIsDarkMode] = useState(false);
-
-
 
     useEffect(() => {
         setIsDarkMode(document.documentElement.classList.contains("dark"));
 
-        initParticlesEngine(async (engine) => {
-            await loadSlim(engine);
-        }).then(() => {
-            setInit(true);
+        // Follow theme toggles so the background switches with dark mode
+        const observer = new MutationObserver(() => {
+            setIsDarkMode(document.documentElement.classList.contains("dark"));
         });
-    }, []);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
 
-    const particlesLoaded = (container) => {
-        // console.log(container);
-    };
+        return () => observer.disconnect();
+    }, []);
 
     const options = useMemo(
         () => ({
@@ -90,22 +86,22 @@ const ParticlesBg = () => {
             },
             detectRetina: true,
         }),
-        []
+        [isDarkMode]
     );
 
-    if (init) {
-        return (
-            <div class="absolute inset-0 w-full h-full z-[-1]">
-                <Particles
-                    id="tsparticles"
-                    particlesLoaded={particlesLoaded}
-                    options={options}
-                />
-            </div>
-        );
-    }
+    if (!loaded) return null;
 
-    return <></>;
+    return (
+        <div className="fixed inset-0 w-full h-full z-[-1]">
+            <Particles id="tsparticles" options={options} />
+        </div>
+    );
 };
+
+const ParticlesBg = () => (
+    <ParticlesProvider init={async (engine) => { await loadSlim(engine); }}>
+        <ParticlesInner />
+    </ParticlesProvider>
+);
 
 export default ParticlesBg;
