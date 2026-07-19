@@ -31,20 +31,6 @@ const data = {
     website: '',
     projects: [
         {
-            name: 'Velin',
-            // TODO: drop real screenshots in src/assets/project_images/Velin-images/
-            // and import them above, then replace the placeholder below.
-            images: [TestImage],
-            about:
-                "Velin: A browser-based PDF editor that runs entirely client-side — no uploads, no servers, no accounts. Organize pages (remove, reorder, rotate, extract), add formatted text, draw or upload signatures, and create freehand annotations, then export the edited PDF, with every operation processed locally in the browser. Built with Next.js and TypeScript, styled with Tailwind CSS and shadcn/ui, using PDF.js for rendering and pdf-lib for writing, with Zustand for state management.",
-            tech: ['Next.js', 'TypeScript', 'Tailwind', 'PDF.js', 'pdf-lib', 'Zustand'],
-            links: {
-                GitHub: 'https://github.com/rddolor27/Velin',
-                Live: '',
-            },
-            role: 'Developer',
-        },
-        {
             name: 'Clustera',
             images:
                 [
@@ -66,7 +52,7 @@ const data = {
             tech: ['React', 'D3.js', 'Tailwind', 'Django', 'AWS'],
             links: {
                 Live: '',
-                Github: 'https://github.com/thirdweb-dev',
+                GitHub: '',
             },
             role: 'Developer Relations Engineer',
         },
@@ -87,7 +73,7 @@ const data = {
             about: 'An Interpreter made with Python for the programming language LOL. It has a Graphical User Interface, Lexical Analyzer and Syntax Analyze',
             tech: ['Python'],
             links: {
-                GitHub: 'https://github.com/candypay',
+                GitHub: '',
                 Live: '',
             },
             role: 'Fullstack web3 developer',
@@ -104,10 +90,24 @@ const data = {
             tech: ['Next.js', 'D3.js', 'Tailwind', 'Spring Boot', 'PostgreSQL'],
 
             links: {
-                GitHub: 'https://github.com/candypay',
+                GitHub: '',
                 Live: '',
             },
             role: 'Fullstack web3 developer',
+        },
+        {
+            name: 'Velin',
+            // TODO: drop real screenshots in src/assets/project_images/Velin-images/
+            // and import them above, then replace the placeholder below.
+            images: [TestImage],
+            about:
+                "Velin: A browser-based PDF editor that runs entirely client-side — no uploads, no servers, no accounts. Organize pages (remove, reorder, rotate, extract), add formatted text, draw or upload signatures, and create freehand annotations, then export the edited PDF, with every operation processed locally in the browser. Built with Next.js and TypeScript, styled with Tailwind CSS and shadcn/ui, using PDF.js for rendering and pdf-lib for writing, with Zustand for state management.",
+            tech: ['Next.js', 'TypeScript', 'Tailwind', 'PDF.js', 'pdf-lib', 'Zustand'],
+            links: {
+                GitHub: 'https://github.com/rddolor27/Velin',
+                Live: 'https://rddolor27.github.io/Velin/',
+            },
+            role: 'Developer',
         },
     ],
     links: [
