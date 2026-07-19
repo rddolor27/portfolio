@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
+import { SiNestjs, SiSpringboot, SiGraphql, SiTypeorm, SiDrizzle, SiPuppeteer, SiExpo } from 'react-icons/si';
+import { TbBrandReactNative } from 'react-icons/tb';
 
 import Python from '../assets/stack_image_icons/python.png';
 import Nodejs from '../assets/stack_image_icons/nodejs.png';
@@ -43,20 +45,28 @@ const LANGUAGES = [
 ];
 
 const FRAMEWORKS = [
-    { icon: Django, label: 'Django' },
-    { icon: Nodejs, label: 'Node.js' },
     { icon: Reactjs, label: 'React' },
+    { Icon: TbBrandReactNative, color: '#61DAFB', label: 'React Native' },
+    { Icon: SiExpo, label: 'Expo' },
+    { icon: Nextjs, label: 'Next.js' },
     { icon: Tailwind, label: 'Tailwind' },
-    { icon: Flutter, label: 'Flutter' },
     { icon: CSS, label: 'CSS' },
     { icon: HTML, label: 'HTML' },
     { icon: D3, label: 'D3.js' },
+    { icon: Flutter, label: 'Flutter' },
+    { icon: Nodejs, label: 'Node.js' },
     { icon: Express, label: 'Express.js' },
-    { icon: Nextjs, label: 'Next.js' },
+    { Icon: SiNestjs, color: '#E0234E', label: 'NestJS' },
+    { icon: Django, label: 'Django' },
+    { Icon: SiSpringboot, color: '#6DB33F', label: 'Spring Boot' },
+    { Icon: SiGraphql, color: '#E10098', label: 'GraphQL' },
+    { icon: Mongodb, label: 'Mongodb' },
+    { Icon: SiTypeorm, label: 'TypeORM' },
+    { Icon: SiDrizzle, label: 'Drizzle' },
     { icon: AWS, label: 'AWS' },
     { icon: Firebase, label: 'Firebase' },
-    { icon: Mongodb, label: 'Mongodb' },
     { icon: Selenium, label: 'Selenium' },
+    { Icon: SiPuppeteer, color: '#40B5A4', label: 'Puppeteer' },
     { icon: Scikit, label: 'Scikit-Learn' },
     { icon: Gensim, label: 'Gensim' },
     { icon: Opencv, label: 'OpenCV' },
@@ -80,17 +90,25 @@ const SkillGrid = ({ title, skills }) => (
     <div className="mb-16">
         <div className="mb-8 text-center text-xl font-bold tracking-tight">{title}</div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            {skills.map(({ icon, label }) => (
+            {skills.map(({ icon, Icon, color, label }) => (
                 <motion.div
                     key={label}
                     variants={item}
                     className="group flex items-center gap-3 rounded-xl border bg-card/60 px-4 py-3 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-purple-500/50 hover:shadow-md hover:shadow-purple-500/10"
                 >
-                    <img
-                        src={icon}
-                        alt={`${label} Icon`}
-                        className="h-9 w-9 transition-transform duration-300 ease-in-out group-hover:scale-110"
-                    />
+                    {icon ? (
+                        <img
+                            src={icon}
+                            alt={`${label} Icon`}
+                            className="h-9 w-9 shrink-0 transition-transform duration-300 ease-in-out group-hover:scale-110"
+                        />
+                    ) : (
+                        <Icon
+                            aria-hidden="true"
+                            style={color ? { color } : undefined}
+                            className="h-9 w-9 shrink-0 transition-transform duration-300 ease-in-out group-hover:scale-110"
+                        />
+                    )}
                     <span className="text-sm font-medium">{label}</span>
                 </motion.div>
             ))}
