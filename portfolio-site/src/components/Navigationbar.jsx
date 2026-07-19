@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 
 const NAV_LINKS = [
     { to: 'about-section', label: 'About', activeKey: 'inAboutSection' },
+    { to: 'experience-section', label: 'Experience', activeKey: 'inExperienceSection' },
     { to: 'skills-section', label: 'Skills', activeKey: 'inSkillsSection' },
     { to: 'projects-section', label: 'Projects', activeKey: 'inProjectsSection' },
     { to: 'contacts-section', label: 'Connect', activeKey: 'inContactsSection' },
